@@ -1,0 +1,52 @@
+package com.practiceProblems.java;
+
+import java.util.Scanner;
+import java.util.Stack;
+
+public class SortTheStack {
+
+	public static void sortStack(Stack<Integer> s,int x) {
+		
+		if(s.isEmpty() || x >= s.peek()) {
+			s.push(x);
+			return;
+		}
+		else {
+			int top = s.pop();
+			sortStack(s,x);
+			sortStack(s,top);
+			System.out.println(s.toString());
+		}
+	}
+	
+	
+	public static void sort(Stack<Integer> s) {
+		
+		if(!s.isEmpty()) {
+			int x = s.pop();
+			sort(s);
+			sortStack(s,x);
+			
+		}
+		
+	}
+	public static void main(String[] args) {
+		Stack<Integer> s = new Stack<>();
+		Stack<Integer> stack = new Stack<>();
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		int[] arr = new int[n];
+		for(int i=0;i<n;i++) {
+			arr[i] = sc.nextInt();
+		}
+		
+		// create a stack
+		for(int i=n-1;i>=0;i--) {
+			s.push(arr[i]);
+		}
+		sort(s);
+		System.out.println(s.toString());
+
+	}
+
+}
