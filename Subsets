@@ -1,0 +1,52 @@
+package com.practiceProblems.java;
+
+import java.util.*;
+
+public class Subsets {
+	
+	static List<List<Integer>> ans ;
+	
+	public static List<Integer> stackToList(Stack<Integer> s){
+		
+		List<Integer> a = new ArrayList<>();
+		
+		for(Integer i : s) {
+			a.add(i);
+		}
+		
+		return a;
+		
+	}
+	
+	public static void subsets(int[] arr, Stack<Integer> s, int ind, int n) {
+		
+		ans.add(stackToList(s));
+		
+		if(s.size() == n) {			
+			return;
+		}
+		
+		for(int i = ind; i < n ; i++) {
+			//System.out.println("ind is "+ind);
+			s.push(arr[i]);
+			subsets(arr,s,i+1,n);
+			s.pop();
+		}
+		
+	}
+
+	public static void main(String[] args) {
+		
+		Stack<Integer> s = new Stack<>();
+		ans = new ArrayList<>();
+		int[] arr = {1,2,3};
+		int n = arr.length;
+		subsets(arr,s,0,n);
+		System.out.println(ans.toString());
+		
+		
+	}
+
+}
+
+Output: [[], [1], [1, 2], [1, 2, 3], [1, 3], [2], [2, 3], [3]]
