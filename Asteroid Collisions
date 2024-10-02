@@ -1,0 +1,59 @@
+package com.practice.examples.dsa;
+
+import java.util.Arrays;
+import java.util.Stack;
+
+public class AsteriodCollisions {
+
+	public static void main(String[] args) {
+		
+		int[] asteroids = {-2,-1,1,2};
+		int n = asteroids.length;
+		Stack<Integer> s = new Stack<>();
+		
+		for(int i = n-1; i >= 0; i--) {
+			if(s.isEmpty() || s.peek()*asteroids[i] > 0) {
+				// its in same direction or if stack is empty then push the element into the stack
+				s.push(asteroids[i]);
+			}
+			else if (s.peek() < asteroids[i] ) {
+				// this will collide
+				while(!s.isEmpty()) {
+					if(Math.abs(s.peek()) < Math.abs(asteroids[i])) {
+						s.pop();
+						if(s.isEmpty() || s.peek()*asteroids[i] > 0) {
+							s.push(asteroids[i]);
+							break;
+						}
+					}
+					else if (Math.abs(s.peek()) == Math.abs(asteroids[i])) {
+						s.pop();
+						break;
+					}
+					else {
+						break;
+					}
+					
+				}
+			}
+			else {
+				s.push(asteroids[i]);
+			}
+			
+		}
+		
+		System.out.println(s.toString());
+		
+		int[] ans = new int[s.size()];
+		int j = 0;
+		
+		while(!s.isEmpty()) {
+			ans[j] = s.pop();
+			j++;
+		}
+		
+		System.out.println("ans is "+Arrays.toString(ans));
+
+	}
+
+}
