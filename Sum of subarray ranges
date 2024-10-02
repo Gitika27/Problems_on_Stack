@@ -1,0 +1,131 @@
+class Solution {
+
+	public static long getMinimum(int[] arr) {
+		long min = 0L;
+		
+		Stack<Integer> s = new Stack<>();
+		
+		int n = arr.length;
+		int[] nse = new int[n];
+		int[] pse = new int[n];
+		
+		for(int i = n-1; i >= 0; i--) {
+			nse[i] = n;
+			if(!s.isEmpty() && arr[s.peek()] < arr[i]) {
+				nse[i] = s.peek();
+			}
+			else {
+				while(!s.isEmpty()) {
+					if(arr[s.peek()] < arr[i]) {
+						nse[i] = s.peek();
+						break;
+					}
+					else {
+						s.pop();
+					}
+				}
+				
+			}
+			
+			s.push(i);
+		}
+		
+		s = new Stack<>();
+		
+		for(int i = 0; i < n; i++) {
+			pse[i] = -1;
+			if(!s.isEmpty() && arr[s.peek()] <= arr[i]) {
+				pse[i] = s.peek();
+			}
+			else {
+				while(!s.isEmpty()) {
+					if(arr[s.peek()] <= arr[i]) {
+						pse[i] = s.peek();
+						break;
+					}
+					else {
+						s.pop();
+					}
+				}
+			}
+			s.push(i);
+		}
+		
+		
+		for(int i = 0 ; i < n; i++) {
+			long left = i - pse[i];
+			long right = nse[i] - i;
+			min = min + (left * right*arr[i]);
+		}
+		
+		return min;
+	}
+	
+	public static long getMaximum(int[] arr) {
+		long max = 0L;
+		
+		int n = arr.length;
+		int[] pge = new int[n];
+		int[] nge = new int[n];
+		
+		Stack<Integer> s = new Stack<>();
+		
+		for(int i = 0; i < n ; i++) {
+			pge[i] = -1;
+			if(!s.isEmpty() && arr[s.peek()] >= arr[i]) {
+				pge[i] = s.peek();
+			}
+			else {
+				while(!s.isEmpty()) {
+					if(arr[s.peek()] >= arr[i]) {
+						pge[i] = s.peek();
+						break;
+					}
+					else {
+						s.pop();
+					}
+				}
+			}
+			s.push(i);
+		}
+		
+		
+		s = new Stack<>();
+		
+		for(int i = n-1 ; i >= 0; i--) {
+			nge[i] = n;
+			if(!s.isEmpty() && arr[s.peek()] > arr[i]) {
+				nge[i] = s.peek();
+			}
+			else {
+				while(!s.isEmpty()) {
+					if(arr[s.peek()] > arr[i]) {
+						nge[i] = s.peek();
+						break;
+					}
+					else {
+						s.pop();
+					}
+				}
+			}
+			s.push(i);
+			
+		}
+		
+		
+		
+		for(int i = 0 ; i < n; i++) {
+			long left = i - pge[i];
+			long right = nge[i] - i ;
+			max = max + (left * right*arr[i]);
+		}
+		
+		return max;
+	}
+	
+
+    public long subArrayRanges(int[] nums) {
+        
+        return (getMaximum(nums) - getMinimum(nums));
+    }
+}
