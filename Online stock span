@@ -1,0 +1,85 @@
+package com.practice.examples.dsa;
+
+import java.util.*;
+
+
+class Stock<k,v>{
+	int key;
+	int value;
+	
+	public Stock(int key, int value) {
+		super();
+		this.key = key;
+		this.value = value;
+	}
+	public int getKey() {
+		return key;
+	}
+	public void setKey(int key) {
+		this.key = key;
+	}
+	public int getValue() {
+		return value;
+	}
+	public void setValue(int value) {
+		this.value = value;
+	}
+	@Override
+	public String toString() {
+		return "Stock [key=" + key + ", value=" + value + "]";
+	}
+}
+
+class StockSpanner {
+	
+	Stack<Stock<Integer,Integer>> s;
+	int currentIndex;
+    public StockSpanner() {
+    	s = new Stack<>();
+    	currentIndex = -1;
+    }
+    
+    public int next(int price) {
+    	
+    	currentIndex+=1;
+    	int ans = 0;
+    	Stock<Integer,Integer> stock = new Stock<>(price, currentIndex);
+    	
+		while (!s.isEmpty() && s.peek().getKey() <= price) {
+			s.pop();
+		}
+
+        ans = currentIndex - (s.isEmpty()?-1: s.peek().getValue());
+		s.push(stock);
+    	
+		return ans;
+        
+    }
+    
+}
+
+class Main{
+	
+	public static void main(String[] args) {
+		StockSpanner s = new StockSpanner();
+		int param = s.next(29);
+		System.out.println("price: "+param);
+		int param1 = s.next(91);
+		System.out.println("price: "+param1);
+		int param2 = s.next(62);
+		System.out.println("price: "+param2);
+		int param3 = s.next(76);
+		System.out.println("price: "+param3);
+		int param4 = s.next(51);
+		System.out.println("price: "+param4);
+	
+	}
+}
+
+Output: 
+
+price: 1
+price: 2
+price: 1
+price: 2
+price: 1
